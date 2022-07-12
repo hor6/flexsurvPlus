@@ -1,3 +1,5 @@
+#Fitting parametric survival models in R
+
 # Libraries
 library(flexsurvPlus)
 library(tibble)
