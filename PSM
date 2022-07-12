@@ -3,6 +3,9 @@ library(flexsurvPlus)
 library(tibble)
 library(dplyr)
 library(boot)
+library(survival)
+library(survminer)
+library(tidyr)
 library(ggplot2)
 
 # Non-scientific notation
