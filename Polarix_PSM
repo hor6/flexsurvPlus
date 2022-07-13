@@ -1,0 +1,60 @@
+#Fitting parametric survival models in R
+#Codes used in the Polarix trial.
+
+# Libraries
+library(flexsurvPlus)
+library(tibble)
+library(dplyr)
+library(survival)
+library(survminer)
+library(tidyr)
+library(boot)
+
+blue = rgb(69, 185, 209, max=255)
+red = rgb(225, 55, 60, max=255)
+yellow = rgb(238, 224, 30, max=255)
+pink = rgb(211,78,147,max=255)
+Dblue = rgb(0,45,92,max=255)
+Dyellow = rgb(214, 200, 16, max=255)
+green = rgb(0,1,0)
+Dyellow = rgb(214, 200, 16, max=255)
+black<-rgb(0,0,0,max=255)
+grey1<-rgb(0,0,0,max=30)
+grey2<-rgb(10,10,10,max=30)
+grey3<-rgb(20,20,20,max=30)
+grey3_dup<-rgb(19,20,20,max=30)
+lightPink<-rgb(229,151,192,max=255)
+orange<-rgb(247,139,21,max=255)
+
+
+km.est.PFS <- survfit(Surv(PFS_years, PFS_event) ~ ARMCD , data = PFS_data, conf.type = 'plain')
+
+#KM_list <- list(OS = km.est.OS, PFS = km.est.PFS)
+
+KM_plot_PFS <- ggsurvplot(km.est.PFS, risk.table = TRUE, data = PFS_data,
+                          break.time.by = 1,
+                          conf.int = FALSE,
+                          censor=FALSE,
+                          legend.title = '',
+                          xlab = paste0('Progression-free survival (years)'),
+                          size = 0.72,
+                          xlim = c(0, 5))
+KM_plot_PFS
+
+psm_PFS_all <- runPSM(data=PFS_data,
+                      time_var="PFS_years",
+                      event_var="PFS_event",
+                      model.type= c("Common shape",
+                                    "Independent shape",
+                                    "Separate"),
+                      distr = c("exp",
+                                "weibull",
+                                "llogis",
+                                "lnorm",
+                                "gengamma",
+                                "gompertz",
+                                "gamma"),
+                      strata_var = "ARMCD",
+                      int_name="ARM A",
+                      ref_name = "ARM B")
+psm_PFS_all
