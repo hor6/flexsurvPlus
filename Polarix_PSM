@@ -29,7 +29,6 @@ orange<-rgb(247,139,21,max=255)
 
 km.est.PFS <- survfit(Surv(PFS_years, PFS_event) ~ ARMCD , data = PFS_data, conf.type = 'plain')
 
-#KM_list <- list(OS = km.est.OS, PFS = km.est.PFS)
 
 KM_plot_PFS <- ggsurvplot(km.est.PFS, risk.table = TRUE, data = PFS_data,
                           break.time.by = 1,
